@@ -37,4 +37,9 @@ export type ThemeMetrics = {
   spacings: Spacings;
   borderRadius: BorderRadius;
   borderWidths: BorderWidths;
+  dimensions: {
+    w: number;
+    h: number;
+    bar: number;
+  };
 };

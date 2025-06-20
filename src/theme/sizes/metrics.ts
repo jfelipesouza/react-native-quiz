@@ -1,6 +1,9 @@
-import type {ThemeMetrics} from '../types/Metrics';
-import {scaleSize} from '../../utils/scale';
+import type { ThemeMetrics } from '../types/Metrics';
+import { scaleSize } from '../../utils/scale';
+import { Dimensions, StatusBar } from 'react-native';
 
+const { width: w, height: h } = Dimensions.get('screen');
+const bar = StatusBar.currentHeight || 40;
 export const metrics: ThemeMetrics = {
   fontSizes: {
     xs: scaleSize(10),
@@ -31,5 +34,10 @@ export const metrics: ThemeMetrics = {
     thin: scaleSize(1),
     thick: scaleSize(2),
     heavy: scaleSize(4),
+  },
+  dimensions: {
+    w,
+    h,
+    bar,
   },
 };
