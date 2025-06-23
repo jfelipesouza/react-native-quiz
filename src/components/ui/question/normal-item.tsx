@@ -39,6 +39,8 @@ export const NormalItem: React.FC<NormalItemProps> = ({
     );
   }
 
+  console.log({ value });
+
   return (
     <TouchableOpacity onPress={handleSelect} style={verifyItem()}>
       <Text style={styles.choiceText}> {value}</Text>

@@ -4,21 +4,21 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { NormalItem } from '@components/ui/question/normal-item';
 import { SafeView } from '@components/ui/safe-view';
-import { MOCK_QUESTION } from '@utils/mock/question';
-import type { Choices } from 'types/question';
+import type { Choices, Question } from 'types/question';
 import { shuffleArray } from '@utils/helpers';
+import axios from 'axios';
 
 export const QuestionScreen = () => {
   const { styles } = useStyles(stylesheet);
-  const mock = MOCK_QUESTION;
 
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answerChecked, setAnswerChecked] = useState(false);
   const [shuffledChoices, setShuffledChoices] = useState<Choices[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
 
-  const isLastQuestion = currentQuestionIndex === mock.length - 1;
-  const currentQuestion = mock[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex];
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
   const handleAnswerSelection = (value: string) => {
     if (!answerChecked) {
@@ -26,22 +26,42 @@ export const QuestionScreen = () => {
       setAnswerChecked(true);
     }
   };
+
   const handleNextOrSubmit = () => {
     if (!answerChecked) {
       setAnswerChecked(true);
       setSelectedAnswer('');
+      return;
+    }
+
+    if (isLastQuestion) {
+      Alert.alert('Fim do Quiz', 'Você completou todas as perguntas!');
     } else {
-      if (isLastQuestion) {
-        Alert.alert('Fim do Quiz', 'Você completou todas as perguntas!');
-        // Navegue para uma tela de resultados ou redefina o quiz
-        setCurrentQuestionIndex(0); // Reinicia o quiz para demonstração
-        setSelectedAnswer(null);
-        setAnswerChecked(false);
-      } else {
-        setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-      }
+      setCurrentQuestionIndex(prev => prev + 1);
     }
   };
+
+  const fetchQuestions = async () => {
+    try {
+      const request = (await axios.post<Question[]>(
+        'http://192.168.0.10:3000/questions/find',
+        { quant: 10 },
+      )) as any;
+      const data = await request.data.questions;
+      console.log({ data });
+      if (data.length > 0) {
+        setQuestions(data);
+      } else {
+        Alert.alert('Erro', 'Nenhuma pergunta retornada.');
+      }
+    } catch (err) {
+      Alert.alert('Erro', 'Falha ao buscar perguntas.');
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   useEffect(() => {
     setSelectedAnswer(null);
@@ -49,7 +69,7 @@ export const QuestionScreen = () => {
     if (currentQuestion) {
       setShuffledChoices(shuffleArray(currentQuestion.choices));
     }
-  }, [currentQuestionIndex, currentQuestion]);
+  }, [currentQuestion]);
 
   if (!currentQuestion) {
     return (
@@ -58,6 +78,7 @@ export const QuestionScreen = () => {
       </SafeView>
     );
   }
+
   return (
     <SafeView style={styles.container}>
       <View style={styles.header}>
@@ -67,7 +88,7 @@ export const QuestionScreen = () => {
         </View>
         <View style={styles.inline}>
           <Text style={[styles.normalText, styles.username]}>
-            {currentQuestionIndex + 1}/{mock.length}
+            {currentQuestionIndex + 1}/{questions.length}
           </Text>
 
           <TouchableOpacity
@@ -93,7 +114,7 @@ export const QuestionScreen = () => {
           data={shuffledChoices}
           renderItem={({ item }) => (
             <NormalItem
-              id={item.id}
+              id={item.value}
               value={item.value}
               onPress={handleAnswerSelection}
               isSelected={selectedAnswer}
@@ -101,7 +122,7 @@ export const QuestionScreen = () => {
             />
           )}
           contentContainerStyle={{ gap: 10 }}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.value}
         />
       </View>
     </SafeView>

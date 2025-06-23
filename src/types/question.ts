@@ -1,5 +1,4 @@
 export type Choices = {
-  id: string;
   value: string;
 };
 export type Question = {
