@@ -1,6 +1,4 @@
-import {Breakpoints} from '../types/Breakpoints';
-
-export const breakpoints: Breakpoints = {
+export const breakpoints = {
   xs: 0,
   sm: 300,
   md: 500,

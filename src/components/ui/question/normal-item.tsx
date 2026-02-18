@@ -5,7 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 type NormalItemProps = {
   id: string;
   value: string;
-  onPress: (id: string) => void; // Nova prop: função para lidar com o clique
+  onPress: (id: string) => void;
   isSelected: string | null;
   correctValue: string;
 };
