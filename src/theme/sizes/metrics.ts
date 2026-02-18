@@ -4,6 +4,7 @@ import { Dimensions, StatusBar } from 'react-native';
 
 const { width: w, height: h } = Dimensions.get('screen');
 const bar = StatusBar.currentHeight || 40;
+
 export const metrics: ThemeMetrics = {
   fontSizes: {
     xs: scaleSize(10),

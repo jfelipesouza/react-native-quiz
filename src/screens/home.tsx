@@ -1,28 +1,25 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SafeView } from '@components/ui/safe-view';
-import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { StyleSheet } from 'react-native-unistyles';
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
-
-  const { styles } = useStyles(stylesheet);
 
   const navigate = () => {
     navigation.navigate('single' as never);
   };
 
   return (
-    <SafeView style={styles.container}>
+    <View style={styles.container}>
       <TouchableOpacity onPress={navigate} style={styles.button}>
         <Text style={styles.buttonText}>Ir para questões</Text>
       </TouchableOpacity>
-    </SafeView>
+    </View>
   );
 };
 
-const stylesheet = createStyleSheet(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     alignItems: 'center',
     justifyContent: 'center',

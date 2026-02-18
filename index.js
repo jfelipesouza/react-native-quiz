@@ -3,6 +3,8 @@
  */
 
 import 'react-native-gesture-handler';
+import './unistyles';
+
 import { AppRegistry } from 'react-native';
 
 import { name as appName } from './app.json';
