@@ -1,28 +1,17 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native-unistyles';
 
 export const HomeScreen: React.FC = () => {
-  const navigation = useNavigation();
-
-  const navigate = () => {
-    navigation.navigate('single' as never);
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={navigate} style={styles.button}>
-        <Text style={styles.buttonText}>Ir para questões</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  return <View style={styles.container} />;
 };
 
 const styles = StyleSheet.create(theme => ({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
+    backgroundColor: theme.colors.onPrimary,
   },
   button: {
     backgroundColor: theme.colors.primary,

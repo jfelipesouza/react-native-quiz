@@ -5,14 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { StackRouters } from './routes';
 
-import { UnistylesProvider } from 'react-native-unistyles';
-
-export const MyApp = () => {
+export const MyApp: React.FC = () => {
   return (
-    <UnistylesProvider>
-      <NavigationContainer>
-        <StackRouters />
-      </NavigationContainer>
-    </UnistylesProvider>
+    <NavigationContainer>
+      <StackRouters />
+    </NavigationContainer>
   );
 };

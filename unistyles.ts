@@ -5,7 +5,7 @@ import {
   appThemes,
   AppThemes,
   breakpoints,
-} from '@themes/config';
+} from './src/theme/config';
 
 declare module 'react-native-unistyles' {
   export interface UnistylesThemes extends AppThemes {}
